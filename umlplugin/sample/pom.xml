@@ -1,0 +1,158 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.prekiraUml</groupId>
+  <artifactId>sample</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>maven-plugin</packaging>
+
+  <name>sample Maven Plugin</name>
+
+  <!-- added to render in mvn site -->
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <repositories>
+    <repository>
+      <id>in-project</id>
+      <name>In Project Repo</name>
+      <url>file://${project.basedir}/libs</url>
+  </repository>
+</repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>net.sourceforge.plantuml</groupId>
+      <artifactId>plantuml</artifactId>
+      <version>8031</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.plugin-tools</groupId>
+      <artifactId>maven-plugin-annotations</artifactId>
+      <version>3.2</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+      <version>3.0.8</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.json/json -->
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20180813</version>
+    </dependency>
+    
+    <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-shared-utils</artifactId>
+            <version>3.2.0</version>
+    </dependency>
+    <!-- reporting API -->
+    <dependency>
+            <groupId>org.apache.maven.reporting</groupId>
+            <artifactId>maven-reporting-impl</artifactId>
+            <version>3.0.0</version>
+    </dependency>
+    <dependency>
+            <groupId>org.apache.maven.reporting</groupId>
+            <artifactId>maven-reporting-api</artifactId>
+            <version>3.0</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <resources>
+        <resource>
+            <filtering>true</filtering>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>application.properties</include>
+            </includes>
+        </resource>
+    </resources>
+  
+    <plugins>
+      <plugin>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.7.0</version>
+      </plugin>
+      <plugin>
+              <artifactId>maven-install-plugin</artifactId>
+              <version>2.5.2</version>
+      </plugin>
+      <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-plugin-plugin</artifactId>
+              <version>3.5.1</version>
+              <configuration>
+                      <goalPrefix>sample</goalPrefix>
+              </configuration>
+              <executions>
+                      <execution>
+                              <id>default-descriptor</id>
+                              <phase>process-classes</phase>
+                      </execution>
+                      <execution>
+                              <id>generated-helpmojo</id>
+                              <goals>
+                                      <goal>helpmojo</goal>
+                              </goals>
+                      </execution>
+              </executions>
+      </plugin>
+    <!-- plant uml!-->
+        <plugin>
+          <groupId>net.sourceforge.plantuml</groupId>
+          <artifactId>plantuml</artifactId>
+          <version>1.2019.7</version>
+        </plugin>
+    </plugins>
+
+  </build>
+  <profiles>
+    <profile>
+      <id>run-its</id>
+      <build>
+
+        <plugins>
+        
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-invoker-plugin</artifactId>
+            <version>1.7</version>
+            <configuration>
+              <goal>install</goal>
+            </configuration>
+            
+            <executions>
+              <execution>
+                <goals>
+                  <goal>install</goal>
+                </goals>
+          
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+
+      </build>
+    </profile>
+  </profiles>
+</project>
+
